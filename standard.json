@@ -1,26 +1,32 @@
 {
-  "requiresCompatibilities": [
-    "FARGATE"
-  ],
-  "containerDefinitions": [
-    {
-      "name": "standard-process",
-      "image": "public.ecr.aws/w8g9b3v8/standardrepo:v_%BUILD_NUMBER%",
-      "memory": 256,
-      "cpu": 256,
-      "essential": true,
-      "portMappings": [
+    "family": "standard-process",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
         {
-          "containerPort": 4000,
-          "protocol": "tcp"
+            "name": "standard-process",
+            "image": "687278383318.dkr.ecr.us-east-1.amazonaws.com/my-repo:v_%BUILD_NUMBER%",
+            "logConfiguration": {
+               "logDriver": "awslogs",
+               "options": {
+                  "awslogs-group" : "/ecs/standard-process",
+                  "awslogs-region": "us-east-1",
+                  "awslogs-stream-prefix": "ecs"
+               }
+            },
+            "portMappings": [
+                {
+                    "containerPort": 4000,
+                    "hostPort": 4000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
         }
-      ]
-    }
-  ],
-  "volumes": [],
-  "networkMode": "awsvpc",
-  "placementConstraints": [],
-  "family": "standard-process",
-  "memory": "512",
-  "cpu": "256"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::687278383318:role/ecsTaskExecutionRole",
+    "memory": "512"
 }
