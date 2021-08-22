@@ -1,0 +1,32 @@
+{
+    "family": "mynodeapp",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "mynodeapp",
+            "image": "111836646603.dkr.ecr.us-east-1.amazonaws.com/my-repo:v_%BUILD_NUMBER%",
+            "logConfiguration": {
+               "logDriver": "awslogs",
+               "options": {
+                  "awslogs-group" : "/ecs/mynodeapp",
+                  "awslogs-region": "us-east-1",
+                  "awslogs-stream-prefix": "ecs"
+               }
+            },
+            "portMappings": [
+                {
+                    "containerPort": 4000,
+                    "hostPort": 4000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::111836646603:role/ecsTaskExecutionRole",
+    "memory": "512"
+}
